@@ -4,15 +4,6 @@
 
 UpTask is a project management tool that allows you to create projects and assign tasks to them. It is built with the MERN stack (MongoDB, Express, React, Node.js) and uses JWT for authentication.
 
-## Table of Contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [License](#license)
-- [Contributing](#contributing)
-- [Tests](#tests)
-- [Questions](#questions)
-
 ## Installation
 
 To install the necessary dependencies, run the following command:
