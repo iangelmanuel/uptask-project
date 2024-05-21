@@ -2,7 +2,8 @@ import { Router } from 'express'
 import { body, param } from 'express-validator'
 import { ProjectController } from '../controllers/ProjectController'
 import { TaskController } from '../controllers/TaskController'
-import validateProjectExists from '../middleware/project'
+import projectExists from '../middleware/project'
+import taskExists from '../middleware/task'
 import handleInputErrors from '../middleware/validation'
 
 const router: Router = Router()
@@ -83,7 +84,7 @@ router.delete(
 
 // ROUTES FOR TASKS
 
-router.param('projectId', validateProjectExists)
+router.param('projectId', projectExists)
 router.post(
   '/:projectId/tasks',
 
@@ -106,6 +107,7 @@ router.get(
   TaskController.getProjectTasks,
 )
 
+router.param('taskId', taskExists)
 router.get(
   '/:projectId/tasks/:taskId',
 
@@ -148,6 +150,24 @@ router.delete(
     .withMessage('El ID del proyecto no es válido'),
 
   TaskController.deleteTask,
+)
+
+router.post(
+  '/:projectId/tasks/:taskId/status',
+
+  param('taskId')
+    .notEmpty()
+    .withMessage('El ID del proyecto es requerido')
+    .isMongoId()
+    .withMessage('El ID del proyecto no es válido'),
+
+  body('status')
+    .notEmpty()
+    .withMessage('El estado de la tarea es requerido')
+    .isIn(['completed', 'incompleted'])
+    .withMessage('El estado de la tarea no es válido'),
+
+  TaskController.updateStatus,
 )
 
 export default router

@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-export default async function validateProjectExists(
+export default async function projectExists(
   req: Request,
   res: Response,
   next: NextFunction,
