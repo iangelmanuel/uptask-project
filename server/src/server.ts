@@ -1,3 +1,3 @@
-import express from 'express'
-const app = express()
+import express, { Application } from 'express'
+const app: Application = express()
 export default app
