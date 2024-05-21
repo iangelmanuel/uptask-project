@@ -10,11 +10,11 @@ export interface ITask extends Document {
 }
 
 const taskStatus = {
-  PENDING: 'PENDING',
-  ON_HOLD: 'ON_HOLD',
-  IN_PROGRESS: 'IN_PROGRESS',
-  UNDER_REVIEW: 'UNDER_REVIEW',
-  COMPLETED: 'COMPLETED',
+  PENDING: 'Pending',
+  ON_HOLD: 'onHold',
+  IN_PROGRESS: 'inProgress',
+  UNDER_REVIEW: 'underReview',
+  COMPLETED: 'completed',
 } as const
 
 const TaskSchema = new Schema(
