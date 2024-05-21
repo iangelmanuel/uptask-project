@@ -62,7 +62,7 @@ export class TaskController {
     const { taskId } = req.params
 
     try {
-      const task = await Task.findByIdAndUpdate(taskId, req.body)
+      const task = await Task.findById(taskId)
 
       if (!task) {
         const error = new Error('Tarea no encontrada')
@@ -73,6 +73,10 @@ export class TaskController {
         const error = new Error('Acción no autorizada')
         return res.status(400).json({ error: error.message })
       }
+
+      task.name = req.body.name
+      task.description = req.body.description
+      await task.save()
 
       return res.status(201).json('Tarea actualizada correctamente')
     } catch (error) {
