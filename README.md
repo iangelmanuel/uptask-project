@@ -28,7 +28,7 @@ This project is licensed under the MIT license.
 
 If you have any questions, feel free to reach out:
 
-- GitHub: [Your GitHub Username](https://github.com/iAngelManuel)
+- GitHub: [My GitHub Username](https://github.com/iAngelManuel)
 - Email: iangelmanuel02@gmail.com
 
-![Your GitHub Profile Picture](https://github.com/iAngelManuel.png?size=50)
+![My GitHub Profile Picture](https://github.com/iAngelManuel.png?size=50)
