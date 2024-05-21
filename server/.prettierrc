@@ -13,9 +13,18 @@
   "vueIndentScriptAndStyle": false,
   "proseWrap": "preserve",
   "insertPragma": false,
-  "printWidth": 70,
+  "printWidth": 75,
   "requirePragma": false,
   "tabWidth": 2,
   "useTabs": false,
-  "embeddedLanguageFormatting": "auto"
+  "embeddedLanguageFormatting": "auto",
+
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "^@core/(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "^@server/(.*)$",
+    "^@ui/(.*)$",
+    "^[./]"
+  ]
 }
