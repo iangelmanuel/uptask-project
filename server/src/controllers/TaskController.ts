@@ -37,11 +37,6 @@ export class TaskController {
 
   static async getTasksById(req: Request, res: Response) {
     try {
-      if (req.task.project.toString() !== req.project.id) {
-        const error = new Error('Acción no autorizada')
-        return res.status(400).json({ error: error.message })
-      }
-
       return res.status(201).json(req.task)
     } catch (error) {
       console.log(error)
@@ -51,11 +46,6 @@ export class TaskController {
 
   static async updateTask(req: Request, res: Response) {
     try {
-      if (req.task.project.toString() !== req.project.id) {
-        const error = new Error('Acción no autorizada')
-        return res.status(400).json({ error: error.message })
-      }
-
       req.task.name = req.body.name
       req.task.description = req.body.description
       await req.task.save()
