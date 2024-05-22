@@ -19,6 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "colors": "1.4.0",
+    "cors": "^2.8.5",
     "dotenv": "16.4.5",
     "express": "4.19.2",
     "express-validator": "7.1.0",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "4.3.0",
+    "@types/cors": "^2.8.17",
     "@types/express": "4.17.21",
     "nodemon": "3.1.0",
     "prettier": "3.2.5",
