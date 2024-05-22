@@ -1,6 +1,6 @@
+import { Logo } from '@/components/Logo'
+import NavMenu from '@/components/NavMenu'
 import { Outlet } from 'react-router-dom'
-
-import { Logo } from '../components/Logo'
 
 export default function AppLayout() {
   return (
@@ -10,10 +10,12 @@ export default function AppLayout() {
           <div className="w-64">
             <Logo />
           </div>
+
+          <NavMenu />
         </div>
       </header>
 
-      <main className="mx-w-screen-2xl mx-auto mt-10 p-5">
+      <main className="mx-auto mt-10 max-w-screen-2xl p-5">
         <Outlet />
       </main>
 
