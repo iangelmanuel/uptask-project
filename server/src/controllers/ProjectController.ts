@@ -43,7 +43,8 @@ export class ProjectController {
     const { id } = req.params
 
     try {
-      const project = (await Project.findById(id)).populated('tasks')
+      const project = await Project.findById(id)
+      project.populated('tasks')
 
       if (!project) {
         const error = new Error('Proyecto no encontrado')
@@ -55,7 +56,7 @@ export class ProjectController {
       project.description = req.body.description
 
       await project.save()
-      return res.json(project)
+      return res.json('Proyecto actualizado correctamente')
     } catch (error) {
       console.log(error)
     }
@@ -73,7 +74,7 @@ export class ProjectController {
       }
 
       await project.deleteOne()
-      return res.json({ message: 'Proyecto eliminado correctamente' })
+      return res.json('Proyecto eliminado correctamente')
     } catch (error) {
       console.log(error)
     }

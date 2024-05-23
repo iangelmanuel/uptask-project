@@ -1,6 +1,7 @@
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express, { Application } from 'express'
+import morgan from 'morgan'
 import { corsConfig } from './config/cors'
 import connectDB from './config/db'
 import projectRoutes from './router/projectRoutes'
@@ -12,6 +13,9 @@ const app: Application = express()
 
 // CORS
 app.use(cors(corsConfig))
+
+// MORGAN
+app.use(morgan('dev'))
 
 // MIDDLEWARES
 app.use(express.json())
