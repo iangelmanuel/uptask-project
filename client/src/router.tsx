@@ -3,6 +3,8 @@ import DashboardPage from '@/pages/DashboardPage'
 import CreateProjectPage from '@/pages/projects/CreateProjectPage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
+import EditProjectView from './pages/projects/EditProjectView'
+
 export default function Router() {
   return (
     <BrowserRouter>
@@ -10,6 +12,10 @@ export default function Router() {
         <Route path="/" element={<AppLayout />}>
           <Route index element={<DashboardPage />} />
           <Route path="/projects/create" element={<CreateProjectPage />} />
+          <Route
+            path="/projects/:projectId/edit"
+            element={<EditProjectView />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
