@@ -66,6 +66,9 @@ export const TaskCard = ({ task }: TaskCardProps) => {
               <Menu.Item>
                 <button
                   type="button"
+                  onClick={() =>
+                    navigate(location.pathname + `?viewTask=${task._id}`)
+                  }
                   className="block px-3 py-1 text-sm leading-6 text-gray-900"
                 >
                   Ver Tarea
