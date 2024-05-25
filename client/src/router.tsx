@@ -3,7 +3,7 @@ import DashboardPage from '@/pages/DashboardPage'
 import CreateProjectPage from '@/pages/projects/CreateProjectPage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import EditProjectView from './pages/projects/EditProjectView'
+import EditProjectView from './pages/projects/EditProjectPage'
 import ProjectDetailsPage from './pages/projects/ProjectDetailsPage'
 
 export default function Router() {
