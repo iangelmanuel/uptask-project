@@ -4,6 +4,7 @@ import CreateProjectPage from '@/pages/projects/CreateProjectPage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import EditProjectView from './pages/projects/EditProjectView'
+import ProjectDetailsPage from './pages/projects/ProjectDetailsPage'
 
 export default function Router() {
   return (
@@ -15,6 +16,10 @@ export default function Router() {
           <Route
             path="/projects/:projectId/edit"
             element={<EditProjectView />}
+          />
+          <Route
+            path="/projects/:projectId"
+            element={<ProjectDetailsPage />}
           />
         </Route>
       </Routes>

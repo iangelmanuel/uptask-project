@@ -72,7 +72,7 @@ export default function DashboardPage() {
                 <div className="flex min-w-0 gap-x-4">
                   <div className="min-w-0 flex-auto space-y-2">
                     <Link
-                      to={``}
+                      to={`/projects/${project._id}`}
                       className="cursor-pointer text-3xl font-bold text-gray-600 hover:underline"
                     >
                       {project.projectName}
@@ -106,7 +106,7 @@ export default function DashboardPage() {
                       <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                         <Menu.Item>
                           <Link
-                            to={``}
+                            to={`/projects/${project._id}`}
                             className="block px-3 py-1 text-sm leading-6 text-gray-900"
                           >
                             Ver Proyecto
