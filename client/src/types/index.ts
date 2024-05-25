@@ -9,6 +9,8 @@ export type TaskTatus =
   | 'underReview'
   | 'completed'
 
+export type TaskStatus = z.infer<typeof taskStatuses>
+
 export const taskStatuses = z.enum([
   'pending',
   'onHold',
@@ -23,6 +25,8 @@ export const taskSchema = z.object({
   description: z.string(),
   project: z.string(),
   status: taskStatuses,
+  createdAt: z.string(),
+  updatedAt: z.string(),
 })
 
 export type Task = z.infer<typeof taskSchema>
