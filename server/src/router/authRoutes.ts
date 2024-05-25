@@ -47,4 +47,20 @@ router.post(
   AuthController.confirmAccount,
 )
 
+router.post(
+  'login',
+
+  body('email')
+    .notEmpty()
+    .withMessage('El email es requerido')
+    .isEmail()
+    .withMessage('El email no es válido'),
+
+  body('password').notEmpty().withMessage('La contraseña es requerida'),
+
+  handleInputErrors,
+
+  AuthController.login,
+)
+
 export default router
