@@ -18,7 +18,29 @@ export class AuthEmail {
 
       <p>Para confirmar tu cuenta, haz click en el siguiente enlace:</p>
 
-      <a href="http://localhost:3000/confirm-account/${user.token}">Confirmar cuenta</a>
+      <a href="${process.env.FRONDEND_URL}/auth/confirm-account">Confirmar cuenta</a>
+
+      <p>E ingresa el código: <b>${user.token}</b></p>
+
+      <p>Este Token expirará en <b>10 minutos</b>, en caso tal de no cumplir con el tiempo estimado, por favor generar otro Token</p>
+
+      <p>Si no has solicitado la creación de una cuenta en UpTask, puedes ignorar este email</p>
+      `,
+    })
+  }
+
+  static sendPasswordResetToken = async (user: IEmail) => {
+    await transporter.sendMail({
+      from: 'UpTask <admin@uptask.com>',
+      to: user.email,
+      subject: 'UpTask - Reestablece tu contraseña',
+      text: 'Hemos recibido una solicitud para reestablecer tu contraseña en UpTask. Ingresa al siguiente enlace para reestablecer tu contraseña',
+      html: `
+      <p>Hola ${user.name}, has solicitado reestablecer tu contraseña</p>
+
+      <p>Para confirmar tu cuenta, haz click en el siguiente enlace:</p>
+
+      <a href="${process.env.FRONDEND_URL}/auth/new-password">Reestablecer Contraseña</a>
 
       <p>E ingresa el código: <b>${user.token}</b></p>
 
