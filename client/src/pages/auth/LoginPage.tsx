@@ -26,14 +26,14 @@ export default function LoginView() {
       toast.error(error.message)
     },
 
-    onSuccess: (data) => {
-      toast.success(data)
+    onSuccess: () => {
+      toast.success('Has iniciado sesión correctamente')
+      reset()
     },
   })
 
   const handleLogin = (formData: UserLoginForm) => {
     mutate(formData)
-    reset()
   }
 
   return (

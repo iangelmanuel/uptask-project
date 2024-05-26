@@ -52,7 +52,12 @@ export async function requestConfirmationCode(
 
 export async function authenticateUser(formData: UserLoginForm) {
   try {
-    const { data } = await api.post<string>('/auth/request-code', formData)
+    const { data } = await api.post<{ token: string }>(
+      '/auth/login',
+      formData,
+    )
+    localStorage.setItem('AUTH_TOKEN', data.token)
+
     return data
   } catch (error) {
     if (isAxiosError(error)) {
