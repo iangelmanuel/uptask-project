@@ -48,7 +48,7 @@ router.post(
 )
 
 router.post(
-  'login',
+  '/login',
 
   body('email')
     .notEmpty()
