@@ -1,5 +1,4 @@
 import type { Request, Response } from 'express'
-import { transporter } from '../config/nodemailer'
 import { AuthEmail } from '../emails/AuthEmail'
 import Token from '../models/Token'
 import User from '../models/Uset'
