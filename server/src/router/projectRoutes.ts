@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { body, param } from 'express-validator'
 import { ProjectController } from '../controllers/ProjectController'
 import { TaskController } from '../controllers/TaskController'
+import { authenticate } from '../middleware/authenticate'
 import projectExists from '../middleware/project'
 import { taskExists, taskBelongsToProject } from '../middleware/task'
 import handleInputErrors from '../middleware/validation'
@@ -10,6 +11,8 @@ const router: Router = Router()
 
 router.post(
   '/',
+
+  authenticate,
 
   body('projectName')
     .notEmpty()
