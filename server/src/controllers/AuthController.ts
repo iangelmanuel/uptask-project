@@ -114,4 +114,118 @@ export class AuthController {
       res.status(500).send('Hubo un error al iniciar sesión')
     }
   }
+
+  static requestConfirmationCode = async (req: Request, res: Response) => {
+    try {
+      const { email } = req.body
+
+      const user = await User.findOne({ email })
+
+      if (!user) {
+        const error = new Error('El usuario no está registrado')
+        return res.status(404).json({ error: error.message })
+      }
+
+      if (user.confirmed) {
+        const error = new Error('La cuenta ya ha sido confirmada')
+        return res.status(403).json({ error: error.message })
+      }
+
+      const token = new Token()
+      token.token = generateToken()
+      token.user = user.id
+
+      // SEND EMAIL
+      AuthEmail.sendConfirmationEmail({
+        email: user.email,
+        name: user.name,
+        token: token.token,
+      })
+
+      await Promise.allSettled([user.save(), token.save()])
+
+      res
+        .status(201)
+        .send('Se envio un email con el código de confirmación nuevamente')
+    } catch (error) {
+      console.log(error)
+      res.status(500).send('Hubo un error al crear la cuenta')
+    }
+  }
+
+  static forgotPassword = async (req: Request, res: Response) => {
+    try {
+      const { email } = req.body
+
+      const user = await User.findOne({ email })
+
+      if (!user) {
+        const error = new Error('El usuario no está registrado')
+        return res.status(404).json({ error: error.message })
+      }
+
+      const token = new Token()
+      token.token = generateToken()
+      token.user = user.id
+      await token.save()
+
+      // SEND EMAIL
+      AuthEmail.sendPasswordResetToken({
+        email: user.email,
+        name: user.name,
+        token: token.token,
+      })
+
+      res
+        .status(201)
+        .send('Se envio un email con el código de confirmación')
+    } catch (error) {
+      console.log(error)
+      res.status(500).send('Hubo un error al crear la cuenta')
+    }
+  }
+
+  static validateToken = async (req: Request, res: Response) => {
+    try {
+      const { token } = req.body
+
+      const tokenExists = await Token.findOne({ token })
+
+      if (!tokenExists) {
+        const error = new Error('El token no es válido')
+        return res.status(404).json({ error: error.message })
+      }
+
+      res
+        .status(201)
+        .send('Token válido, puedes reestablecer tu contraseña')
+    } catch (error) {
+      console.log(error)
+      res.status(500).send('Hubo un error al crear la cuenta')
+    }
+  }
+
+  static updatePassworWithToken = async (req: Request, res: Response) => {
+    try {
+      const { token } = req.params
+      const { password } = req.body
+
+      const tokenExists = await Token.findOne({ token })
+
+      if (!tokenExists) {
+        const error = new Error('El token no es válido')
+        return res.status(404).json({ error: error.message })
+      }
+
+      const user = await User.findById(tokenExists.user)
+      user.password = await hashPassword(password)
+
+      await Promise.allSettled([user.save(), tokenExists.deleteOne()])
+
+      res.status(201).send('Contraseña actualizada correctamente')
+    } catch (error) {
+      console.log(error)
+      res.status(500).send('Hubo un error al crear la cuenta')
+    }
+  }
 }

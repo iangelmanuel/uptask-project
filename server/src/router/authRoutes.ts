@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { body } from 'express-validator'
+import { body, param } from 'express-validator'
 import { AuthController } from '../controllers/AuthController'
 import handleInputErrors from '../middleware/validation'
 
@@ -61,6 +61,71 @@ router.post(
   handleInputErrors,
 
   AuthController.login,
+)
+
+router.post(
+  '/request-code',
+
+  body('email')
+    .notEmpty()
+    .withMessage('El email es requerido')
+    .isEmail()
+    .withMessage('El email no es válido'),
+
+  handleInputErrors,
+
+  AuthController.requestConfirmationCode,
+)
+
+router.post(
+  '/forgot-password',
+
+  body('email')
+    .notEmpty()
+    .withMessage('El email es requerido')
+    .isEmail()
+    .withMessage('El email no es válido'),
+
+  handleInputErrors,
+
+  AuthController.forgotPassword,
+)
+
+router.post(
+  '/validate-token',
+
+  body('token').notEmpty().withMessage('El token es requerido'),
+
+  handleInputErrors,
+
+  AuthController.validateToken,
+)
+
+router.post(
+  '/update-password/:token',
+
+  param('token')
+    .notEmpty()
+    .withMessage('El token es requerido')
+    .isNumeric()
+    .withMessage('El token no es válido'),
+
+  body('password')
+    .notEmpty()
+    .withMessage('La contraseña es requerida')
+    .isLength({ min: 8 })
+    .withMessage('La contraseña debe tener al menos 8 caracteres'),
+
+  body('passwordConfirmation').custom((value, { req }) => {
+    if (value !== req.body.password) {
+      throw new Error('Las contraseñas no coinciden')
+    }
+    return true
+  }),
+
+  handleInputErrors,
+
+  AuthController.updatePassworWithToken,
 )
 
 export default router
