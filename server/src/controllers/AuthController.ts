@@ -4,6 +4,7 @@ import Token from '../models/Token'
 import User from '../models/Uset'
 import { generateToken } from '../utils/generateToken'
 import { checkPassword, hashPassword } from '../utils/hashPassword'
+import { generateJWT } from '../utils/jwt'
 
 export class AuthController {
   static createAccount = async (req: Request, res: Response) => {
@@ -109,7 +110,8 @@ export class AuthController {
         return res.status(401).json({ error: error.message })
       }
 
-      res.status(200).send('Sesión iniciada correctamente')
+      const token = generateJWT({ id: user.id })
+      return res.status(200).json({ token })
     } catch (error) {
       res.status(500).send('Hubo un error al iniciar sesión')
     }
