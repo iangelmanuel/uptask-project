@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { body, param } from 'express-validator'
 import { ProjectController } from '../controllers/ProjectController'
 import { TaskController } from '../controllers/TaskController'
+import { TeamController } from '../controllers/TeamController'
 import { authenticate } from '../middleware/authenticate'
 import projectExists from '../middleware/project'
 import { taskExists, taskBelongsToProject } from '../middleware/task'
@@ -156,6 +157,8 @@ router.delete(
   TaskController.deleteTask,
 )
 
+router.get('/:projectId/team', TeamController.getProjectTeam)
+
 router.post(
   '/:projectId/tasks/:taskId/status',
 
@@ -172,6 +175,48 @@ router.post(
     .withMessage('El estado de la tarea no es válido'),
 
   TaskController.updateStatus,
+)
+
+router.post(
+  '/:projectId/team/find',
+
+  body('email')
+    .notEmpty()
+    .withMessage('El email del usuario es requerido')
+    .isEmail()
+    .withMessage('El email no es válido'),
+
+  handleInputErrors,
+
+  TeamController.findMemberByEmail,
+)
+
+router.post(
+  '/:projectId/team',
+
+  body('id')
+    .notEmpty()
+    .withMessage('El ID del usuario es requerido')
+    .isMongoId()
+    .withMessage('El ID del usuario no es válido'),
+
+  handleInputErrors,
+
+  TeamController.addMemberById,
+)
+
+router.delete(
+  '/:projectId/team',
+
+  body('id')
+    .notEmpty()
+    .withMessage('El ID del usuario es requerido')
+    .isMongoId()
+    .withMessage('El ID del usuario no es válido'),
+
+  handleInputErrors,
+
+  TeamController.removeMemberById,
 )
 
 export default router
