@@ -9,7 +9,7 @@ export default function AppLayout() {
   const { user, isError, isLoading } = useAuth()
 
   if (isLoading) return <p>Cargando...</p>
-  if (isError) <Navigate to="/login" />
+  if (isError) return <Navigate to="/auth/login" />
 
   if (user)
     return (
