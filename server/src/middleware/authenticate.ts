@@ -31,6 +31,7 @@ export const authenticate = async (
 
       if (user) {
         req.user = user
+        next()
       } else {
         const error = new Error('No autorizado')
         return res.status(401).json({ error: error.message })
@@ -39,6 +40,4 @@ export const authenticate = async (
   } catch (error) {
     res.status(500).send('Hubo un error al autenticar')
   }
-
-  next()
 }

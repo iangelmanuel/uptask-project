@@ -5,6 +5,8 @@ export class ProjectController {
   static createProject = async (req: Request, res: Response) => {
     const project = new Project(req.body)
 
+    project.manager = req.user.id
+
     try {
       await project.save()
       res.status(201).send('Proyecto creado correctamente')
@@ -15,10 +17,13 @@ export class ProjectController {
 
   static getAllProjects = async (req: Request, res: Response) => {
     try {
-      const projects = await Project.find({})
+      const projects = await Project.find({
+        $or: [{ manager: { $in: req.user.id } }],
+      })
+
       return res.json(projects)
     } catch (error) {
-      console.log(error)
+      res.status(400).send('Error al obtener los proyectos')
     }
   }
 
@@ -28,6 +33,13 @@ export class ProjectController {
     try {
       const project = await Project.findById(id).populate('tasks')
 
+      if (project.manager.toString() !== req.user.id) {
+        const error = new Error(
+          'No tienes permisos para ver este proyecto',
+        )
+        return res.status(403).json({ error: error.message })
+      }
+
       if (!project) {
         const error = new Error('Proyecto no encontrado')
         return res.status(404).json({ error: error.message })
@@ -35,7 +47,7 @@ export class ProjectController {
 
       return res.json(project)
     } catch (error) {
-      console.log(error)
+      res.status(400).send('Error al obtener el proyecto')
     }
   }
 
@@ -44,6 +56,13 @@ export class ProjectController {
 
     try {
       const project = await Project.findById(id)
+
+      if (project.manager.toString() !== req.user.id) {
+        const error = new Error(
+          'No tienes permisos para actualizar este proyecto',
+        )
+        return res.status(403).json({ error: error.message })
+      }
 
       if (!project) {
         const error = new Error('Proyecto no encontrado')
@@ -57,7 +76,7 @@ export class ProjectController {
       await project.save()
       return res.json('Proyecto actualizado correctamente')
     } catch (error) {
-      console.log(error)
+      res.status(400).send('Error al actualizar el proyecto')
     }
   }
 
@@ -67,6 +86,13 @@ export class ProjectController {
     try {
       const project = await Project.findById(id)
 
+      if (project.manager.toString() !== req.user.id) {
+        const error = new Error(
+          'No tienes permisos para eliminar este proyecto',
+        )
+        return res.status(403).json({ error: error.message })
+      }
+
       if (!project) {
         const error = new Error('Proyecto no encontrado')
         return res.status(404).json({ error: error.message })
@@ -75,7 +101,7 @@ export class ProjectController {
       await project.deleteOne()
       return res.json('Proyecto eliminado correctamente')
     } catch (error) {
-      console.log(error)
+      res.status(400).send('Error al eliminar el proyecto')
     }
   }
 }

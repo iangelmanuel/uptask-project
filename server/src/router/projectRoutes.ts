@@ -9,10 +9,10 @@ import handleInputErrors from '../middleware/validation'
 
 const router: Router = Router()
 
+router.use(authenticate)
+
 router.post(
   '/',
-
-  authenticate,
 
   body('projectName')
     .notEmpty()
