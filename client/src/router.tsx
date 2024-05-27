@@ -12,6 +12,7 @@ import RegisterPage from './pages/auth/RegisterPage'
 import RequestNewCodePage from './pages/auth/RequestNewCodePage'
 import EditProjectPage from './pages/projects/EditProjectPage'
 import ProjectDetailsPage from './pages/projects/ProjectDetailsPage'
+import ProjectTeamPage from './pages/projects/ProjectTeamPage'
 
 export default function Router() {
   return (
@@ -27,6 +28,10 @@ export default function Router() {
           <Route
             path="/projects/:projectId"
             element={<ProjectDetailsPage />}
+          />
+          <Route
+            path="/projects/:projectId/team"
+            element={<ProjectTeamPage />}
           />
         </Route>
 
