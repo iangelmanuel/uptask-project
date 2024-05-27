@@ -206,9 +206,9 @@ router.post(
 )
 
 router.delete(
-  '/:projectId/team',
+  '/:projectId/team/:userId',
 
-  body('id')
+  param('userId')
     .notEmpty()
     .withMessage('El ID del usuario es requerido')
     .isMongoId()
