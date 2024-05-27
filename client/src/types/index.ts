@@ -95,3 +95,15 @@ export type ProjectFormData = Pick<
   Project,
   'projectName' | 'clientName' | 'description'
 >
+
+// TEAM //
+
+export const teamMemberSchema = userSchema.pick({
+  _id: true,
+  name: true,
+  email: true,
+})
+export const teamMembersSchema = z.array(teamMemberSchema)
+
+export type TeamMember = z.infer<typeof teamMemberSchema>
+export type TeamMemberFormData = Pick<TeamMember, 'email'>
