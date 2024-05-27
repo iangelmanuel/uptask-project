@@ -6,6 +6,7 @@ import {
   RequestConfirmationCodeForm,
   UserLoginForm,
   UserRegistrationForm,
+  userSchema,
 } from '@/types'
 import { isAxiosError } from 'axios'
 
@@ -110,6 +111,23 @@ export async function updatePasswordWithToken({
     )
 
     return data
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(error.response?.data.error)
+    }
+    throw new Error('Ha ocurrido un error')
+  }
+}
+
+export async function getUser() {
+  try {
+    const { data } = await api('/auth/user')
+
+    const response = userSchema.safeParse(data)
+
+    if (response.success) {
+      return response.data
+    }
   } catch (error) {
     if (isAxiosError(error)) {
       throw new Error(error.response?.data.error)
