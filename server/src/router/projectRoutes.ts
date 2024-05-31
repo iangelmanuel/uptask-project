@@ -5,7 +5,11 @@ import { TaskController } from '../controllers/TaskController'
 import { TeamController } from '../controllers/TeamController'
 import { authenticate } from '../middleware/authenticate'
 import projectExists from '../middleware/project'
-import { taskExists, taskBelongsToProject } from '../middleware/task'
+import {
+  taskExists,
+  taskBelongsToProject,
+  hasAuthorization,
+} from '../middleware/task'
 import handleInputErrors from '../middleware/validation'
 
 const router: Router = Router()
@@ -92,6 +96,8 @@ router.param('projectId', projectExists)
 router.post(
   '/:projectId/tasks',
 
+  hasAuthorization,
+
   body('name')
     .notEmpty()
     .withMessage('El nombre de la tarea es requerido'),
@@ -128,6 +134,8 @@ router.get(
 router.put(
   '/:projectId/tasks/:taskId',
 
+  hasAuthorization,
+
   param('taskId')
     .notEmpty()
     .withMessage('El ID del proyecto es requerido')
@@ -147,6 +155,8 @@ router.put(
 
 router.delete(
   '/:projectId/tasks/:taskId',
+
+  hasAuthorization,
 
   param('taskId')
     .notEmpty()
