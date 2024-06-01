@@ -32,9 +32,9 @@ export async function getTaskById({
   taskId,
 }: Pick<TaskAPI, 'projectId' | 'taskId'>) {
   try {
-    const { data } = await api.get(
-      `/projects/${projectId}/tasks/${taskId}`,
-    )
+    const { data } = await api(`/projects/${projectId}/tasks/${taskId}`)
+
+    console.log(data)
 
     const response = taskSchema.safeParse(data)
 
