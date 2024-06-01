@@ -34,8 +34,6 @@ export async function getTaskById({
   try {
     const { data } = await api(`/projects/${projectId}/tasks/${taskId}`)
 
-    console.log(data)
-
     const response = taskSchema.safeParse(data)
 
     if (response.success) {
