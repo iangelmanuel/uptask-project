@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { body, param } from 'express-validator'
+import { NoteController } from '../controllers/NoteController'
 import { ProjectController } from '../controllers/ProjectController'
 import { TaskController } from '../controllers/TaskController'
 import { TeamController } from '../controllers/TeamController'
@@ -227,6 +228,40 @@ router.delete(
   handleInputErrors,
 
   TeamController.removeMemberById,
+)
+
+// ROUTES FOR NOTES
+
+router.post(
+  '/:projectId/tasks/:taskId/notes',
+
+  body('content')
+    .notEmpty()
+    .withMessage('El contenido de la nota es requerido'),
+
+  handleInputErrors,
+
+  NoteController.createNote,
+)
+
+router.get(
+  '/:projectId/tasks/:taskId/notes',
+
+  NoteController.getTaskNotes,
+)
+
+router.delete(
+  '/:projectId/tasks/:taskId/notes/:noteId',
+
+  param('noteId')
+    .notEmpty()
+    .withMessage('El ID de la nota es requerido')
+    .isMongoId()
+    .withMessage('El ID de la nota no es válido'),
+
+  handleInputErrors,
+
+  NoteController.deleteNote,
 )
 
 export default router
