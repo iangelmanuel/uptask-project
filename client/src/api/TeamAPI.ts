@@ -14,11 +14,10 @@ export async function findUserByEmail({
   projectId: Project['_id']
   formData: TeamMemberFormData
 }) {
+  const url = `/projects/${projectId}/team/find`
+
   try {
-    const { data } = await api.post(
-      `/projects/${projectId}/team/find`,
-      formData,
-    )
+    const { data } = await api.post(url, formData)
 
     return data
   } catch (error) {
@@ -35,10 +34,10 @@ export async function addUserToProject({
   projectId: Project['_id']
   id: TeamMember['_id']
 }) {
+  const url = `/projects/${projectId}/team`
+
   try {
-    const { data } = await api.post(`/projects/${projectId}/team`, {
-      id,
-    })
+    const { data } = await api.post(url, { id })
 
     return data
   } catch (error) {
@@ -49,8 +48,10 @@ export async function addUserToProject({
 }
 
 export async function getProjectTeam(projectId: Project['_id']) {
+  const url = `/projects/${projectId}/team`
+
   try {
-    const { data } = await api(`/projects/${projectId}/team`)
+    const { data } = await api(url)
 
     const response = teamMembersSchema.safeParse(data)
 
@@ -71,10 +72,10 @@ export async function removeUserFromProject({
   projectId: Project['_id']
   id: TeamMember['_id']
 }) {
+  const url = `/projects/${projectId}/team/${id}`
+
   try {
-    const { data } = await api.delete<string>(
-      `/projects/${projectId}/team/${id}`,
-    )
+    const { data } = await api.delete<string>(url)
 
     return data
   } catch (error) {
