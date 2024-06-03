@@ -13,11 +13,10 @@ export async function createTask({
   formData,
   projectId,
 }: Pick<TaskAPI, 'formData' | 'projectId'>) {
+  const url = `/projects/${projectId}/tasks`
+
   try {
-    const { data } = await api.post<string>(
-      `/projects/${projectId}/tasks`,
-      formData,
-    )
+    const { data } = await api.post<string>(url, formData)
     return data
   } catch (error) {
     if (isAxiosError(error) && error.message) {
@@ -31,8 +30,10 @@ export async function getTaskById({
   projectId,
   taskId,
 }: Pick<TaskAPI, 'projectId' | 'taskId'>) {
+  const url = `/projects/${projectId}/tasks/${taskId}`
+
   try {
-    const { data } = await api(`/projects/${projectId}/tasks/${taskId}`)
+    const { data } = await api(url)
 
     const response = taskSchema.safeParse(data)
 
@@ -52,11 +53,10 @@ export async function updateTaskById({
   taskId,
   formData,
 }: Pick<TaskAPI, 'projectId' | 'taskId' | 'formData'>) {
+  const url = `/projects/${projectId}/tasks/${taskId}`
+
   try {
-    const { data } = await api.put<string>(
-      `/projects/${projectId}/tasks/${taskId}`,
-      formData,
-    )
+    const { data } = await api.put<string>(url, formData)
 
     return data
   } catch (error) {
@@ -71,10 +71,10 @@ export async function deleteTaskById({
   projectId,
   taskId,
 }: Pick<TaskAPI, 'projectId' | 'taskId'>) {
+  const url = `/projects/${projectId}/tasks/${taskId}`
+
   try {
-    const { data } = await api.delete<string>(
-      `/projects/${projectId}/tasks/${taskId}`,
-    )
+    const { data } = await api.delete<string>(url)
 
     return data
   } catch (error) {
@@ -90,11 +90,9 @@ export async function updateStatus({
   taskId,
   status,
 }: Pick<TaskAPI, 'projectId' | 'taskId' | 'status'>) {
+  const url = `/projects/${projectId}/tasks/${taskId}/status`
   try {
-    const { data } = await api.post<string>(
-      `/projects/${projectId}/tasks/${taskId}/status`,
-      { status },
-    )
+    const { data } = await api.post<string>(url, { status })
 
     return data
   } catch (error) {
