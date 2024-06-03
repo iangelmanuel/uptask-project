@@ -7,8 +7,10 @@ import {
 import { isAxiosError } from 'axios'
 
 export async function createProject(formData: ProjectFormData) {
+  const url = '/projects'
+
   try {
-    const { data } = await api.post('/projects', formData)
+    const { data } = await api.post(url, formData)
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -18,8 +20,10 @@ export async function createProject(formData: ProjectFormData) {
 }
 
 export async function getProjects() {
+  const url = '/projects'
+
   try {
-    const { data } = await api('/projects')
+    const { data } = await api(url)
     const response = dashboardProjectSchema.safeParse(data)
     if (response.success) return response.data
   } catch (error) {
@@ -30,8 +34,10 @@ export async function getProjects() {
 }
 
 export async function getProjectById(id: Project['_id']) {
+  const url = `/projects/${id}`
+
   try {
-    const { data } = await api(`/projects/${id}`)
+    const { data } = await api(url)
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -49,11 +55,10 @@ export async function updateProjectById({
   formData,
   projectId,
 }: ProjectAPIType) {
+  const url = `/projects/${projectId}`
+
   try {
-    const { data } = await api.put<string>(
-      `/projects/${projectId}`,
-      formData,
-    )
+    const { data } = await api.put<string>(url, formData)
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -63,8 +68,10 @@ export async function updateProjectById({
 }
 
 export async function deleteProjectById(id: Project['_id']) {
+  const url = `/projects/${id}`
+
   try {
-    const { data } = await api.delete<string>(`/projects/${id}`)
+    const { data } = await api.delete<string>(url)
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {
