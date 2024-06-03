@@ -11,11 +11,10 @@ import {
 import { isAxiosError } from 'axios'
 
 export async function createAccount(formData: UserRegistrationForm) {
+  const url = '/auth/create-account'
+
   try {
-    const { data } = await api.post<string>(
-      '/auth/create-account',
-      formData,
-    )
+    const { data } = await api.post<string>(url, formData)
     return data
   } catch (error) {
     if (isAxiosError(error)) {
@@ -26,8 +25,10 @@ export async function createAccount(formData: UserRegistrationForm) {
 }
 
 export async function confirmAccount(token: ConfirmToken) {
+  const url = '/auth/confirm-account'
+
   try {
-    const { data } = await api.post<string>('/auth/confirm-account', token)
+    const { data } = await api.post<string>(url, token)
     return data
   } catch (error) {
     if (isAxiosError(error)) {
@@ -40,8 +41,10 @@ export async function confirmAccount(token: ConfirmToken) {
 export async function requestConfirmationCode(
   email: RequestConfirmationCodeForm,
 ) {
+  const url = '/auth/request-code'
+
   try {
-    const { data } = await api.post<string>('/auth/request-code', email)
+    const { data } = await api.post<string>(url, email)
     return data
   } catch (error) {
     if (isAxiosError(error)) {
@@ -52,11 +55,10 @@ export async function requestConfirmationCode(
 }
 
 export async function authenticateUser(formData: UserLoginForm) {
+  const url = '/auth/login'
+
   try {
-    const { data } = await api.post<{ token: string }>(
-      '/auth/login',
-      formData,
-    )
+    const { data } = await api.post<{ token: string }>(url, formData)
     localStorage.setItem('AUTH_TOKEN', data.token)
 
     return data
@@ -69,11 +71,9 @@ export async function authenticateUser(formData: UserLoginForm) {
 }
 
 export async function forgotPassword(formData: ForgotPasswordForm) {
+  const url = '/auth/forgot-password'
   try {
-    const { data } = await api.post<string>(
-      '/auth/forgot-password',
-      formData,
-    )
+    const { data } = await api.post<string>(url, formData)
 
     return data
   } catch (error) {
@@ -85,8 +85,10 @@ export async function forgotPassword(formData: ForgotPasswordForm) {
 }
 
 export async function validateToken(token: ConfirmToken) {
+  const url = '/auth/validate-token'
+
   try {
-    const { data } = await api.post<string>('/auth/validate-token', token)
+    const { data } = await api.post<string>(url, token)
 
     return data
   } catch (error) {
@@ -104,11 +106,10 @@ export async function updatePasswordWithToken({
   formData: NewPasswordForm
   token: ConfirmToken['token']
 }) {
+  const url = `/auth/update-password/${token}`
+
   try {
-    const { data } = await api.post<string>(
-      `/auth/update-password/${token}`,
-      formData,
-    )
+    const { data } = await api.post<string>(url, formData)
 
     return data
   } catch (error) {
@@ -120,8 +121,10 @@ export async function updatePasswordWithToken({
 }
 
 export async function getUser() {
+  const url = '/auth/user'
+
   try {
-    const { data } = await api('/auth/user')
+    const { data } = await api(url)
 
     const response = userSchema.safeParse(data)
 
