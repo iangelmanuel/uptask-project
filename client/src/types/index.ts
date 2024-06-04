@@ -40,6 +40,19 @@ export const userSchema = authSchema
 
 export type User = z.infer<typeof userSchema>
 
+// NOTES //
+
+const noteSchema = z.object({
+  _id: z.string(),
+  content: z.string(),
+  createdBy: userSchema,
+  task: z.string(),
+  createdAt: z.string(),
+})
+
+export type Note = z.infer<typeof noteSchema>
+export type NoteFormData = Pick<Note, 'content'>
+
 // TASKS //
 
 export type TaskTatus =
@@ -70,6 +83,11 @@ export const taskSchema = z.object({
       _id: z.string(),
       user: userSchema,
       status: taskStatuses,
+    }),
+  ),
+  notes: z.array(
+    noteSchema.extend({
+      createdBy: userSchema,
     }),
   ),
   createdAt: z.string(),
