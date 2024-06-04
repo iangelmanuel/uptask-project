@@ -131,4 +131,48 @@ router.post(
 
 router.get('/user', authenticate, AuthController.user)
 
+// Profile routes
+
+router.put(
+  '/profile',
+
+  authenticate,
+
+  body('name').notEmpty().withMessage('El nombre es requerido'),
+  body('email')
+    .notEmpty()
+    .withMessage('El email es requerido')
+    .isEmail()
+    .withMessage('El email no es válido'),
+
+  handleInputErrors,
+
+  AuthController.updateProfile,
+)
+
+router.post(
+  '/update-password',
+
+  authenticate,
+
+  body('currentPassword')
+    .notEmpty()
+    .withMessage('La contraseña actual es requerida'),
+
+  body('newPassword')
+    .notEmpty()
+    .withMessage('La nueva contraseña es requerida'),
+
+  body('newPasswordConfirmation').custom((value, { req }) => {
+    if (value !== req.body.newPassword) {
+      throw new Error('Las contraseñas no coinciden')
+    }
+    return true
+  }),
+
+  handleInputErrors,
+
+  AuthController.updatePassword,
+)
+
 export default router
