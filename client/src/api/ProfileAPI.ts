@@ -10,7 +10,7 @@ export async function updateProfile(formData: UserFormData) {
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {
-      return error.response.data
+      throw new Error(error.response.data.error)
     }
   }
 }
@@ -23,7 +23,7 @@ export async function changePassword(formData: UpdateCurrentUserPassword) {
     return data
   } catch (error) {
     if (isAxiosError(error) && error.response) {
-      return error.response.data
+      throw new Error(error.response.data.error)
     }
   }
 }

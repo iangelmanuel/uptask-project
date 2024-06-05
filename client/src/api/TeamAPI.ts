@@ -21,8 +21,8 @@ export async function findUserByEmail({
 
     return data
   } catch (error) {
-    if (isAxiosError(error) && error.response?.data.message) {
-      throw new Error(error.response?.data.message)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
   }
 }
@@ -41,8 +41,8 @@ export async function addUserToProject({
 
     return data
   } catch (error) {
-    if (isAxiosError(error) && error.response?.data.message) {
-      throw new Error(error.response?.data.message)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
   }
 }
@@ -59,8 +59,8 @@ export async function getProjectTeam(projectId: Project['_id']) {
       return response.data
     }
   } catch (error) {
-    if (isAxiosError(error) && error.response?.data.message) {
-      throw new Error(error.response?.data.message)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
   }
 }
@@ -79,8 +79,8 @@ export async function removeUserFromProject({
 
     return data
   } catch (error) {
-    if (isAxiosError(error) && error.response?.data.message) {
-      throw new Error(error.response?.data.message)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
   }
 }

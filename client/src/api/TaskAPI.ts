@@ -19,10 +19,9 @@ export async function createTask({
     const { data } = await api.post<string>(url, formData)
     return data
   } catch (error) {
-    if (isAxiosError(error) && error.message) {
-      throw new Error(error.response?.data.message)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
-    throw new Error('Ha ocurrido un error')
   }
 }
 
@@ -41,10 +40,9 @@ export async function getTaskById({
       return response.data
     }
   } catch (error) {
-    if (isAxiosError(error) && error.message) {
-      throw new Error(error.response?.data.message)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
-    throw new Error('Ha ocurrido un error')
   }
 }
 
@@ -60,10 +58,9 @@ export async function updateTaskById({
 
     return data
   } catch (error) {
-    if (isAxiosError(error) && error.message) {
-      throw new Error(error.response?.data.message)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
-    throw new Error('Ha ocurrido un error')
   }
 }
 
@@ -78,10 +75,9 @@ export async function deleteTaskById({
 
     return data
   } catch (error) {
-    if (isAxiosError(error) && error.message) {
-      throw new Error(error.response?.data.message)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
-    throw new Error('Ha ocurrido un error')
   }
 }
 
@@ -96,9 +92,8 @@ export async function updateStatus({
 
     return data
   } catch (error) {
-    if (isAxiosError(error) && error.message) {
-      throw new Error(error.response?.data.message)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
-    throw new Error('Ha ocurrido un error')
   }
 }
