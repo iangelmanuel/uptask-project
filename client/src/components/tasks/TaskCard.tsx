@@ -1,5 +1,6 @@
 import { deleteTaskById } from '@/api/TaskAPI'
-import { Task } from '@/types'
+import { TaskProject } from '@/types'
+import { useDraggable } from '@dnd-kit/core'
 import { Menu, Transition } from '@headlessui/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/16/solid'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -8,11 +9,15 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 type TaskCardProps = {
-  task: Task
+  task: TaskProject
   canEdit: boolean
 }
 
 export const TaskCard = ({ task, canEdit }: TaskCardProps) => {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: task._id,
+  })
+
   const navigate = useNavigate()
   const params = useParams()
   const projectId = params.projectId!
@@ -35,18 +40,30 @@ export const TaskCard = ({ task, canEdit }: TaskCardProps) => {
     },
   })
 
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        padding: '1.25rem',
+        backgroundColor: 'white',
+        width: '300px',
+        display: 'flex',
+        borderWidth: '1px',
+        borderColor: 'rgb(203, 213, 225 / var(--tw-border-opacity))',
+      }
+    : undefined
+
   return (
     <li className="flex justify-between gap-3 border-slate-300 bg-white p-5">
-      <div className="flex min-w-0 flex-col gap-y-4">
-        <button
-          type="button"
-          onClick={() =>
-            navigate(location.pathname + `?viewTask=${task._id}`)
-          }
-          className="text-left text-xl font-bold text-slate-600"
-        >
+      <div
+        {...listeners}
+        {...attributes}
+        ref={setNodeRef}
+        style={style}
+        className="flex w-full min-w-0 flex-col gap-y-4 hover:cursor-move"
+      >
+        <p className="text-left text-xl font-bold text-slate-600">
           {task.name}
-        </button>
+        </p>
 
         <p className="text-slate-500">{task.description}</p>
       </div>
