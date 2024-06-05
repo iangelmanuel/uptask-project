@@ -31,6 +31,7 @@ export type UpdateCurrentUserPassword = Pick<
   Auth,
   'password' | 'passwordConfirmation' | 'currentPassword'
 >
+export type CheckPasswordForm = Pick<Auth, 'password'>
 
 // USERS //
 
