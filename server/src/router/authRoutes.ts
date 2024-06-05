@@ -175,4 +175,16 @@ router.post(
   AuthController.updatePassword,
 )
 
+router.post(
+  '/check-password',
+
+  authenticate,
+
+  body('password').notEmpty().withMessage('La contraseña es requerida'),
+
+  handleInputErrors,
+
+  AuthController.checkPassword,
+)
+
 export default router
