@@ -16,6 +16,8 @@ import ProjectDetailsPage from '@/pages/projects/ProjectDetailsPage'
 import ProjectTeamPage from '@/pages/projects/ProjectTeamPage'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
+import NotFound from './pages/404/NotFound'
+
 export default function Router() {
   return (
     <BrowserRouter>
@@ -57,6 +59,10 @@ export default function Router() {
             element={<ForgotPasswordPage />}
           />
           <Route path="/auth/new-password" element={<NewPasswordPage />} />
+
+          <Route element={<AuthLayout />}>
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
