@@ -1,5 +1,6 @@
 import { api } from '@/lib/axios'
 import {
+  CheckPasswordForm,
   ConfirmToken,
   ForgotPasswordForm,
   NewPasswordForm,
@@ -17,10 +18,9 @@ export async function createAccount(formData: UserRegistrationForm) {
     const { data } = await api.post<string>(url, formData)
     return data
   } catch (error) {
-    if (isAxiosError(error)) {
-      throw new Error(error.response?.data.error)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
-    throw new Error('Ha ocurrido un error')
   }
 }
 
@@ -31,10 +31,9 @@ export async function confirmAccount(token: ConfirmToken) {
     const { data } = await api.post<string>(url, token)
     return data
   } catch (error) {
-    if (isAxiosError(error)) {
-      throw new Error(error.response?.data.error)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
-    throw new Error('Ha ocurrido un error')
   }
 }
 
@@ -47,10 +46,9 @@ export async function requestConfirmationCode(
     const { data } = await api.post<string>(url, email)
     return data
   } catch (error) {
-    if (isAxiosError(error)) {
-      throw new Error(error.response?.data.error)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
-    throw new Error('Ha ocurrido un error')
   }
 }
 
@@ -63,10 +61,9 @@ export async function authenticateUser(formData: UserLoginForm) {
 
     return data
   } catch (error) {
-    if (isAxiosError(error)) {
-      throw new Error(error.response?.data.error)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
-    throw new Error('Ha ocurrido un error')
   }
 }
 
@@ -77,10 +74,9 @@ export async function forgotPassword(formData: ForgotPasswordForm) {
 
     return data
   } catch (error) {
-    if (isAxiosError(error)) {
-      throw new Error(error.response?.data.error)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
-    throw new Error('Ha ocurrido un error')
   }
 }
 
@@ -92,10 +88,9 @@ export async function validateToken(token: ConfirmToken) {
 
     return data
   } catch (error) {
-    if (isAxiosError(error)) {
-      throw new Error(error.response?.data.error)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
-    throw new Error('Ha ocurrido un error')
   }
 }
 
@@ -113,10 +108,9 @@ export async function updatePasswordWithToken({
 
     return data
   } catch (error) {
-    if (isAxiosError(error)) {
-      throw new Error(error.response?.data.error)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
-    throw new Error('Ha ocurrido un error')
   }
 }
 
@@ -132,9 +126,21 @@ export async function getUser() {
       return response.data
     }
   } catch (error) {
-    if (isAxiosError(error)) {
-      throw new Error(error.response?.data.error)
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
     }
-    throw new Error('Ha ocurrido un error')
+  }
+}
+
+export async function checkPassword(formData: CheckPasswordForm) {
+  const url = '/auth/check-password'
+
+  try {
+    const { data } = await api.post<string>(url, formData)
+    return data
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error)
+    }
   }
 }
