@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, Types } from 'mongoose'
+import Note from './Note'
 
 export type TaskStatus = (typeof taskStatus)[keyof typeof taskStatus]
 
@@ -66,6 +67,17 @@ const TaskSchema = new Schema(
     ],
   },
   { timestamps: true },
+)
+
+TaskSchema.pre(
+  'deleteOne',
+  { document: true, query: false },
+  async function (next) {
+    const taskId = this._id
+    if (!taskId) return
+    await Note.deleteMany({ task: taskId })
+    next()
+  },
 )
 
 export const Task = mongoose.model<ITask>('Task', TaskSchema)
