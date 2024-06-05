@@ -58,28 +58,12 @@ export class ProjectController {
   }
 
   static updateProject = async (req: Request, res: Response) => {
-    const { id } = req.params
-
     try {
-      const project = await Project.findById(id)
+      req.project.clientName = req.body.clientName
+      req.project.projectName = req.body.projectName
+      req.project.description = req.body.description
 
-      if (project.manager.toString() !== req.user.id) {
-        const error = new Error(
-          'No tienes permisos para actualizar este proyecto',
-        )
-        return res.status(403).json({ error: error.message })
-      }
-
-      if (!project) {
-        const error = new Error('Proyecto no encontrado')
-        return res.status(404).json({ error: error.message })
-      }
-
-      project.clientName = req.body.clientName
-      project.projectName = req.body.projectName
-      project.description = req.body.description
-
-      await project.save()
+      await req.project.save()
       return res.json('Proyecto actualizado correctamente')
     } catch (error) {
       res.status(400).send('Error al actualizar el proyecto')
@@ -87,24 +71,8 @@ export class ProjectController {
   }
 
   static deleteProject = async (req: Request, res: Response) => {
-    const { id } = req.params
-
     try {
-      const project = await Project.findById(id)
-
-      if (project.manager.toString() !== req.user.id) {
-        const error = new Error(
-          'No tienes permisos para eliminar este proyecto',
-        )
-        return res.status(403).json({ error: error.message })
-      }
-
-      if (!project) {
-        const error = new Error('Proyecto no encontrado')
-        return res.status(404).json({ error: error.message })
-      }
-
-      await project.deleteOne()
+      await req.project.deleteOne()
       return res.json('Proyecto eliminado correctamente')
     } catch (error) {
       res.status(400).send('Error al eliminar el proyecto')
